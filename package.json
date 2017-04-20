@@ -1,0 +1,41 @@
+{
+  "name": "npm-cache-path",
+  "version": "0.1.0",
+  "description": "Get the path of npm cache folder",
+  "repository": "shinnn/npm-cache-path",
+  "author": "Shinnosuke Watanabe (https://github.com/shinnn)",
+  "scripts": {
+    "pretest": "eslint --fix --format=codeframe index.js test.js",
+    "test": "istanbul cover test.js"
+  },
+  "license": "CC0-1.0",
+  "files": [
+    "index.js"
+  ],
+  "keywords": [
+    "npm",
+    "cache",
+    "path",
+    "directory",
+    "folder",
+    "resolve",
+    "promise",
+    "async"
+  ],
+  "dependencies": {
+    "append-type": "^1.0.0",
+    "is-plain-obj": "^1.1.0",
+    "npm-cache-env": "^0.1.0",
+    "pinkie-promise": "^2.0.1"
+  },
+  "devDependencies": {
+    "@shinnn/eslint-config-node-legacy": "^3.0.0",
+    "eslint": "^3.19.0",
+    "istanbul": "^0.4.5",
+    "lstat": "^1.0.0",
+    "tape": "^4.6.3"
+  },
+  "eslintConfig": {
+    "extends": "@shinnn/node-legacy"
+  }
+}

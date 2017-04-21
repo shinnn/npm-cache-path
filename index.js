@@ -9,10 +9,9 @@ var exec = require('child_process').exec;
 var appendType = require('append-type');
 var isPlainObj = require('is-plain-obj');
 var npmCacheEnv = require('npm-cache-env');
-var PinkiePromise = require('pinkie-promise');
 
 module.exports = function npmCachePath(options) {
-  return new PinkiePromise(function(resolve, reject) {
+  return new Promise(function(resolve, reject) {
     if (options !== undefined) {
       if (!isPlainObj(options)) {
         throw new TypeError(

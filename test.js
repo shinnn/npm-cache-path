@@ -47,7 +47,7 @@ test('npmCachePath() in a non-npm environment', t => {
   npmCachePath('Hi').catch(err => {
     t.strictEqual(
       err.toString(),
-      'TypeError: Expected an object to specify child_process.exec options, but got Hi (string).',
+      'TypeError: Expected an object to specify child_process.exec options, but got \'Hi\' (string).',
       'should support'
     );
   });
@@ -55,7 +55,7 @@ test('npmCachePath() in a non-npm environment', t => {
   npmCachePath({encoding: 'base64'}).catch(err => {
     t.strictEqual(
       err.toString(),
-      'TypeError: `encoding` option is not supported, but base64 (string) was provided.',
+      'TypeError: `encoding` option is not supported, but \'base64\' (string) was provided.',
       'should'
     );
   });

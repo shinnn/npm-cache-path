@@ -1,6 +1,6 @@
 {
   "name": "npm-cache-path",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Get the path of npm cache folder",
   "repository": "shinnn/npm-cache-path",
   "author": "Shinnosuke Watanabe (https://github.com/shinnn)",
@@ -31,6 +31,7 @@
   "devDependencies": {
     "@shinnn/eslint-config-node": "^3.0.0",
     "eslint": "^3.19.0",
+    "istanbul": "^0.4.5",
     "lstat": "^1.0.0",
     "tape": "^4.6.3"
   },

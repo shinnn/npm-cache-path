@@ -23,17 +23,17 @@
     "async"
   ],
   "dependencies": {
-    "inspect-with-kind": "^1.0.0",
+    "inspect-with-kind": "^1.0.2",
     "is-plain-obj": "^1.1.0",
-    "npm-cache-env": "^0.2.0",
+    "npm-cache-env": "^1.0.1",
     "strip-eof": "^1.0.0"
   },
   "devDependencies": {
-    "@shinnn/eslint-config-node": "^3.0.0",
-    "eslint": "^3.19.0",
+    "@shinnn/eslint-config-node": "^4.0.2",
+    "eslint": "^4.5.0",
     "istanbul": "^0.4.5",
     "lstat": "^1.0.0",
-    "tape": "^4.6.3"
+    "tape": "^4.8.0"
   },
   "eslintConfig": {
     "extends": "@shinnn/node"

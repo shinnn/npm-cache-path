@@ -8,7 +8,7 @@ const lstat = require('lstat');
 const test = require('tape');
 
 test('npmCachePath()', t => {
-  t.plan(2);
+  t.plan(3);
 
   npmCachePath().then(path => {
     lstat(path).then(stat => {
@@ -21,6 +21,14 @@ test('npmCachePath()', t => {
     ).then(({size}) => {
       t.ok(Number.isSafeInteger(size), 'should get a path where packages are cached.');
     }).catch(t.fail);
+  });
+
+  npmCachePath({a: 'b'}, {c: 'd'}).catch(err => {
+    t.equal(
+      err.toString(),
+      'RangeError: Expected 0 or 1 argument ([options: <Object>]), but got 2 arguments instead.',
+      'should invalidate too many arguments.'
+    );
   });
 });
 
@@ -55,7 +63,7 @@ test('npmCachePath() in a non-npm environment', t => {
     t.equal(
       err.toString(),
       'TypeError: Expected an object to specify child_process.exec options, but got \'Hi\' (string).',
-      'should support'
+      'should invalidate non-object arguments.'
     );
   });
 
@@ -63,7 +71,7 @@ test('npmCachePath() in a non-npm environment', t => {
     t.equal(
       err.toString(),
       'TypeError: `encoding` option is not supported, but \'base64\' (string) was provided.',
-      'should'
+      'should invalidate an explicit `encoding` option.'
     );
   });
 });

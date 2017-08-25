@@ -4,16 +4,19 @@
 */
 'use strict';
 
-const exec = require('child_process').exec;
+const {exec} = require('child_process');
 
 const inspectWithKind = require('inspect-with-kind');
 const isPlainObj = require('is-plain-obj');
 const npmCacheEnv = require('npm-cache-env');
 const stripEof = require('strip-eof');
 
-module.exports = function npmCachePath(options) {
+module.exports = function npmCachePath(...args) {
   return new Promise((resolve, reject) => {
-    if (options !== undefined) {
+    const argLen = args.length;
+    const [options] = args;
+
+    if (argLen === 1) {
       if (!isPlainObj(options)) {
         throw new TypeError(`Expected an object to specify child_process.exec options, but got ${
           inspectWithKind(options)
@@ -25,8 +28,8 @@ module.exports = function npmCachePath(options) {
           inspectWithKind(options.encoding)
         } was provided.`);
       }
-    } else {
-      options = {encoding: 'utf8'};
+    } else if (argLen !== 0) {
+      throw new RangeError(`Expected 0 or 1 argument ([options: <Object>]), but got ${argLen} arguments instead.`);
     }
 
     const pathFromEnv = npmCacheEnv();

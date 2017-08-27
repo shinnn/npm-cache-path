@@ -5,47 +5,34 @@
 'use strict';
 
 const {exec} = require('child_process');
+const {promisify} = require('util');
 
 const inspectWithKind = require('inspect-with-kind');
 const isPlainObj = require('is-plain-obj');
 const npmCacheEnv = require('npm-cache-env');
 const stripEof = require('strip-eof');
 
-module.exports = function npmCachePath(...args) {
-  return new Promise((resolve, reject) => {
-    const argLen = args.length;
-    const [options] = args;
+const promisifiedExec = promisify(exec);
 
-    if (argLen === 1) {
-      if (!isPlainObj(options)) {
-        throw new TypeError(`Expected an object to specify child_process.exec options, but got ${
-          inspectWithKind(options)
-        }.`);
-      }
+module.exports = async function npmCachePath(...args) {
+  const argLen = args.length;
+  const [options] = args;
 
-      if (options.encoding) {
-        throw new TypeError(`\`encoding\` option is not supported, but ${
-          inspectWithKind(options.encoding)
-        } was provided.`);
-      }
-    } else if (argLen !== 0) {
-      throw new RangeError(`Expected 0 or 1 argument ([options: <Object>]), but got ${argLen} arguments instead.`);
+  if (argLen === 1) {
+    if (!isPlainObj(options)) {
+      throw new TypeError(`Expected an object to specify child_process.exec options, but got ${
+        inspectWithKind(options)
+      }.`);
     }
 
-    const pathFromEnv = npmCacheEnv();
-
-    if (pathFromEnv) {
-      resolve(pathFromEnv);
-      return;
+    if (options.encoding) {
+      throw new TypeError(`\`encoding\` option is not supported, but ${
+        inspectWithKind(options.encoding)
+      } was provided.`);
     }
+  } else if (argLen !== 0) {
+    throw new RangeError(`Expected 0 or 1 argument ([options: <Object>]), but got ${argLen} arguments instead.`);
+  }
 
-    exec('npm config get cache', options, (err, stdout) => {
-      if (err) {
-        reject(err);
-        return;
-      }
-
-      resolve(stripEof(stdout));
-    });
-  });
+  return npmCacheEnv() || stripEof((await promisifiedExec('npm config get cache', options)).stdout);
 };

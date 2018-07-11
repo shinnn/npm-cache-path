@@ -16,7 +16,7 @@ const npmCachePath = require('npm-cache-path');
 
 ## Installation
 
-[Use npm.](https://docs.npmjs.com/cli/install)
+[Use](https://docs.npmjs.com/cli/install) [npm](https://docs.npmjs.com/getting-started/what-is-npm).
 
 ```
 npm install npm-cache-path
@@ -37,11 +37,12 @@ It tries to get the path of [npm](https://docs.npmjs.com/getting-started/what-is
 
 ```javascript
 // npm_config_cache=/foo/bar node ./example.js
-npmCachePath().then(path => {
-  path; //=> /foo/bar
-});
+
+(async () => {
+  await npmCachePath(); //=> '/foo/bar'
+})();
 ```
 
 ## License
 
-[Creative Commons Zero v1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/deed)
+[ISC License](./LICENSE) © 2018 Shinnosuke Watanabe

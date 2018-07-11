@@ -1,42 +1,40 @@
 {
-  "name": "npm-cache-path",
-  "version": "0.5.0",
-  "description": "Get the path of npm cache folder",
-  "repository": "shinnn/npm-cache-path",
-  "author": "Shinnosuke Watanabe (https://github.com/shinnn)",
-  "scripts": {
-    "pretest": "eslint --fix --format=codeframe index.js test.js",
-    "test": "nyc --reporter=text --reporter=html node test.js"
-  },
-  "license": "CC0-1.0",
-  "files": [
-    "index.js"
-  ],
-  "keywords": [
-    "npm",
-    "cache",
-    "path",
-    "directory",
-    "folder",
-    "resolve",
-    "promise",
-    "async"
-  ],
-  "dependencies": {
-    "inspect-with-kind": "^1.0.2",
-    "is-plain-obj": "^1.1.0",
-    "npm-cache-env": "^1.0.1",
-    "strip-eof": "^1.0.0"
-  },
-  "devDependencies": {
-    "@shinnn/eslint-config-node": "^4.0.2",
-    "cacache": "^9.2.9",
-    "eslint": "^4.5.0",
-    "lstat": "^1.0.0",
-    "nyc": "^11.1.0",
-    "tape": "^4.8.0"
-  },
-  "eslintConfig": {
-    "extends": "@shinnn/node"
-  }
+	"name": "npm-cache-path",
+	"version": "0.5.0",
+	"description": "Get the path of npm cache folder",
+	"repository": "shinnn/npm-cache-path",
+	"author": "Shinnosuke Watanabe (https://github.com/shinnn)",
+	"scripts": {
+		"pretest": "eslint .",
+		"test": "nyc --reporter=text --reporter=html node test.js"
+	},
+	"license": "CC0-1.0",
+	"files": [
+		"index.js"
+	],
+	"keywords": [
+		"npm",
+		"cache",
+		"path",
+		"directory",
+		"folder",
+		"resolve",
+		"promise",
+		"async"
+	],
+	"dependencies": {
+		"inspect-with-kind": "^1.0.4",
+		"is-plain-obj": "^1.1.0",
+		"npm-cache-env": "^2.0.0"
+	},
+	"devDependencies": {
+		"@shinnn/eslint-config-node": "^6.0.0",
+		"cacache": "^11.0.2",
+		"eslint": "^5.1.0",
+		"nyc": "^12.0.2",
+		"tape": "^4.9.1"
+	},
+	"eslintConfig": {
+		"extends": "@shinnn/node"
+	}
 }

@@ -1,77 +1,91 @@
 'use strict';
 
 const {join} = require('path');
+const {lstat} = require('fs').promises;
 
 const getCacacheInfo = require('cacache').get.info;
 const npmCachePath = require('.');
-const lstat = require('lstat');
 const test = require('tape');
 
-test('npmCachePath()', t => {
-  t.plan(3);
+test('npmCachePath()', async t => {
+	const path = await npmCachePath();
 
-  npmCachePath().then(path => {
-    lstat(path).then(stat => {
-      t.ok(stat.isDirectory(), 'should get a path to the directory.');
-    }).catch(t.fail);
+	t.ok(
+		(await lstat(path)).isDirectory(),
+		'should get a path to the directory.'
+	);
 
-    getCacacheInfo(
-      join(path, '_cacache'),
-      'make-fetch-happen:request-cache:https://registry.npmjs.org/lstat/-/lstat-1.0.0.tgz'
-    ).then(({size}) => {
-      t.ok(Number.isSafeInteger(size), 'should get a path where packages are cached.');
-    }).catch(t.fail);
-  });
+	t.ok(Number.isSafeInteger((await getCacacheInfo(
+		join(path, '_cacache'),
+		`make-fetch-happen:request-cache:https://registry.npmjs.org/eslint/-/eslint-${
+			require('eslint/package.json').version
+		}.tgz`
+	)).size), 'should get a path where packages are cached.');
 
-  npmCachePath({a: 'b'}, {c: 'd'}).catch(err => {
-    t.equal(
-      err.toString(),
-      'RangeError: Expected 0 or 1 argument ([options: <Object>]), but got 2 arguments instead.',
-      'should invalidate too many arguments.'
-    );
-  });
+	try {
+		await npmCachePath({a: 'b'}, {c: 'd'});
+		t.fail('Unexpectedlt succeeded.');
+	} catch (err) {
+		t.equal(
+			err.toString(),
+			'RangeError: Expected 0 or 1 argument ([options: <Object>]), but got 2 arguments instead.',
+			'should invalidate too many arguments.'
+		);
+	}
+
+	t.end();
 });
 
-test('npmCachePath() in a non-npm environment', t => {
-  t.plan(5);
+test('npmCachePath() in a non-npm environment', async t => {
+	delete process.env.npm_lifecycle_event;
+	delete process.env.npm_config_cache;
 
-  delete process.env.npm_lifecycle_event;
-  delete process.env.npm_config_cache;
+	const path = await npmCachePath();
 
-  npmCachePath().then(path => {
-    lstat(path).then(stat => {
-      t.ok(stat.isDirectory(), 'should get a path to the directory.');
-    }).catch(t.fail);
+	t.ok(
+		(await lstat(path)).isDirectory(),
+		'should get a path to the directory.'
+	);
 
-    getCacacheInfo(
-      join(path, '_cacache'),
-      'make-fetch-happen:request-cache:https://registry.npmjs.org/lstat/-/lstat-1.0.0.tgz'
-    ).then(({size}) => {
-      t.ok(Number.isSafeInteger(size), 'should get a path where packages are cached.');
-    }).catch(t.fail);
-  });
+	t.ok(Number.isSafeInteger((await getCacacheInfo(
+		join(path, '_cacache'),
+		`make-fetch-happen:request-cache:https://registry.npmjs.org/cacache/-/cacache-${
+			require('cacache/package.json').version
+		}.tgz`
+	)).size), 'should get a path where packages are cached.');
 
-  npmCachePath({maxBuffer: 1}).catch(err => {
-    t.equal(
-      err.toString(),
-      'Error: stdout maxBuffer exceeded',
-      'should receive child_process.exec options.'
-    );
-  });
+	try {
+		await npmCachePath({maxBuffer: 1});
+		t.fail('Unexpectedly succeeded.');
+	} catch (err) {
+		t.equal(
+			err.toString(),
+			'RangeError [ERR_CHILD_PROCESS_STDIO_MAXBUFFER]: stdout maxBuffer length exceeded',
+			'should receive child_process.exec options.'
+		);
+	}
 
-  npmCachePath('Hi').catch(err => {
-    t.equal(
-      err.toString(),
-      'TypeError: Expected an object to specify child_process.exec options, but got \'Hi\' (string).',
-      'should invalidate non-object arguments.'
-    );
-  });
+	try {
+		await npmCachePath('Hi');
+		t.fail('Unexpectedly succeeded.');
+	} catch (err) {
+		t.equal(
+			err.toString(),
+			'TypeError: Expected an object to specify child_process.exec options, but got \'Hi\' (string).',
+			'should invalidate non-object arguments.'
+		);
+	}
 
-  npmCachePath({encoding: 'base64'}).catch(err => {
-    t.equal(
-      err.toString(),
-      'TypeError: `encoding` option is not supported, but \'base64\' (string) was provided.',
-      'should invalidate an explicit `encoding` option.'
-    );
-  });
+	try {
+		await npmCachePath({encoding: 'base64'});
+		t.fail('Unexpectedly succeeded.');
+	} catch (err) {
+		t.equal(
+			err.toString(),
+			'TypeError: `encoding` option is not supported, but \'base64\' (string) was provided.',
+			'should invalidate an explicit `encoding` option.'
+		);
+	}
+
+	t.end();
 });

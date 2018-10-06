@@ -2,6 +2,7 @@
 
 [![npm version](https://img.shields.io/npm/v/npm-cache-path.svg)](https://www.npmjs.com/package/npm-cache-path)
 [![Build Status](https://travis-ci.org/shinnn/npm-cache-path.svg?branch=master)](https://travis-ci.org/shinnn/npm-cache-path)
+[![Build status](https://ci.appveyor.com/api/projects/status/1xs611ynq8ytlfcg/branch/master?svg=true)](https://ci.appveyor.com/project/ShinnosukeWatanabe/npm-cache-path/branch/master)
 [![Coverage Status](https://img.shields.io/coveralls/shinnn/npm-cache-path.svg)](https://coveralls.io/github/shinnn/npm-cache-path?branch=master)
 
 Get the path of [npm cache folder](https://docs.npmjs.com/cli/cache)

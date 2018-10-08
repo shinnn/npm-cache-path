@@ -82,7 +82,7 @@ test('npmCachePath() in a non-npm environment', async t => {
 	} catch (err) {
 		t.equal(
 			err.toString(),
-			'TypeError: `encoding` option is not supported, but \'base64\' (string) was provided.',
+			'TypeError: `encoding` option is not supported, but \'base64\' (string) was provided for it.',
 			'should invalidate an explicit `encoding` option.'
 		);
 	}

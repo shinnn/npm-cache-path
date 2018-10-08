@@ -33,7 +33,7 @@ module.exports = async function npmCachePath(...args) {
 
 			throw new TypeError(`\`${optionName}\` option is not supported, but ${
 				inspectWithKind(val)
-			} was provided.`);
+			} was provided for it.`);
 		}
 	} else if (argLen !== 0) {
 		throw new RangeError(`Expected 0 or 1 argument ([options: <Object>]), but got ${argLen} arguments instead.`);
@@ -45,7 +45,7 @@ module.exports = async function npmCachePath(...args) {
 		return resultFromEnv;
 	}
 
-	return (await promisifiedExecFile('npm', ['config', 'get', 'cache'], Object.assign({}, options, { // eslint-disable-line prefer-object-spread
-		shell: process.platform === 'win32'
-	}))).stdout.trim();
+	return (await promisifiedExecFile('npm', ['config', 'get', 'cache'], Object.assign({ // eslint-disable-line prefer-object-spread
+		timeout: 5000
+	}, options, {shell: process.platform === 'win32'}))).stdout.trim();
 };

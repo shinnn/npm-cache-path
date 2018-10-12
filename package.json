@@ -23,12 +23,10 @@
 		"async"
 	],
 	"dependencies": {
-		"inspect-with-kind": "^1.0.5",
-		"is-plain-obj": "^1.1.0",
 		"npm-cache-env": "^2.0.0"
 	},
 	"devDependencies": {
-		"@shinnn/eslint-config": "^6.7.1",
+		"@shinnn/eslint-config": "^6.7.2",
 		"cacache": "^11.2.0",
 		"eslint": "^5.6.1",
 		"nyc": "^13.0.1",

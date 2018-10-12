@@ -29,9 +29,8 @@ npm install npm-cache-path
 const npmCachePath = require('npm-cache-path');
 ```
 
-### npmCachePath([*options*])
+### npmCachePath()
 
-*options*: `Object` ([`child_process.execFile`](https://nodejs.org/api/child_process.html#child_process_child_process_execfile_file_args_options_callback) options except for `encoding` option and `shell` option)  
 Return: `Promise<string>`
 
 It tries to get the path of [npm](https://docs.npmjs.com/getting-started/what-is-npm) cache folder, first [from the environment variables](https://github.com/shinnn/npm-cache-env), second from the stdout of [`npm config get cache`](https://docs.npmjs.com/cli/config#get) command.

@@ -23,13 +23,13 @@ test('npmCachePath()', async t => {
 	)).size), 'should get a path where packages are cached.');
 
 	try {
-		await npmCachePath({a: 'b'}, {c: 'd'});
+		await npmCachePath('Hi');
 		t.fail('Unexpectedlt succeeded.');
 	} catch (err) {
 		t.equal(
 			err.toString(),
-			'RangeError: Expected 0 or 1 argument ([options: <Object>]), but got 2 arguments instead.',
-			'should invalidate too many arguments.'
+			'RangeError: Expected no arguments, but received 1 arguments.',
+			'should fail when it takes arguments.'
 		);
 	}
 
@@ -53,39 +53,6 @@ test('npmCachePath() in a non-npm environment', async t => {
 			require('cacache/package.json').version
 		}.tgz`
 	)).size), 'should get a path where packages are cached.');
-
-	try {
-		await npmCachePath({maxBuffer: 1});
-		t.fail('Unexpectedly succeeded.');
-	} catch (err) {
-		t.equal(
-			err.toString(),
-			'RangeError [ERR_CHILD_PROCESS_STDIO_MAXBUFFER]: stdout maxBuffer length exceeded',
-			'should receive child_process.exec options.'
-		);
-	}
-
-	try {
-		await npmCachePath('Hi');
-		t.fail('Unexpectedly succeeded.');
-	} catch (err) {
-		t.equal(
-			err.toString(),
-			'TypeError: Expected an object to specify child_process.exec options, but got \'Hi\' (string).',
-			'should invalidate non-object arguments.'
-		);
-	}
-
-	try {
-		await npmCachePath({encoding: 'base64'});
-		t.fail('Unexpectedly succeeded.');
-	} catch (err) {
-		t.equal(
-			err.toString(),
-			'TypeError: `encoding` option is not supported, but \'base64\' (string) was provided for it.',
-			'should invalidate an explicit `encoding` option.'
-		);
-	}
 
 	t.end();
 });
